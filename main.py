@@ -52,13 +52,13 @@ desc = Div(text=open(join(dirname(__file__), "description.html")).read(), sizing
 
 # Create Input controls
 #reviews = Slider(title="Minimum number of reviews", value=80, start=10, end=300, step=10)
-min_year = Slider(title="Inizio del periodo in esame", start=100, end=2000, value=300, step=1)
-max_year = Slider(title="Fine del periodo in esame", start=100, end=2000, value=1500, step=1)
+min_year = Slider(title="Inizio del periodo in esame", start=700, end=1300, value=700, step=1)
+max_year = Slider(title="Fine del periodo in esame", start=700, end=1300, value=1300, step=1)
 #oscars = Slider(title="Minimum number of Oscar wins", start=0, end=4, value=0, step=1)
 #boxoffice = Slider(title="Dollars at Box Office (millions)", start=0, end=800, value=0, step=1)
 #genre = Select(title="Genre", value="All",
 #               options=open(join(dirname(__file__), 'genres.txt')).read().split())
-parola_notaio = TextInput(title="Campo notaio contenente la seguente parola:")
+parola_notaio = TextInput(title="Campo notaio o tipologia contenente la seguente parola:")
 parola_collocantica = TextInput(title="Collocazione antica:")
 colloc = TextInput(title="Collocazione moderna:")
 #cast = TextInput(title="Cast names contains")
@@ -67,7 +67,7 @@ colloc = TextInput(title="Collocazione moderna:")
 fondo = Select(title="Fondo archivistico:", options=lista_fondi, value='Archivio Capitolare di Verona')
 # Create Column Data Source that will be used by the plot
 source = ColumnDataSource(data=dict(x=[], y=[],
-                                    notaio=[], year=[], collocazione_antica=[],collocazione=[],identificativo=[],recto=[]))
+                                    notaio=[], year=[], collocazione_antica=[],collocazione=[],fondo_serie=[],recto=[],is_digitized=[]))
 
 plotsource = ColumnDataSource(data=dict(originali=[],copie=[],secolo = ['700', '800', '900', '1000', '1100', '1200','1300']))
 
@@ -177,11 +177,11 @@ def update():
         #marker_dim = df["marker_dim"],
         #revenue=df["revenue"],
         #alpha=df["alpha"],
-        identificativo=df["identificativo"],
+        fondo_serie=df["fondo_serie"],
         collocazione=df["collocazione"],
         collocazione_antica=df["collocazione_antica"],
         recto = df["recto"],
-        #is_digitized=df["is_digitized"],
+        is_digitized=df["is_digitized"],
         #preferred_manifest_url=df["preferred_manifest_url"],
         #roman_converted = df["roman_converted"]
     )
@@ -213,11 +213,11 @@ l = layout([
 
 # Table 
 columns = [
-    TableColumn(field="identificativo", title="Identificativo",width=10,),
-    TableColumn(field="notaio", title="notaio",width=280),
-    TableColumn(field="collocazione_antica", title="collocazione_antica",width=280),
-    TableColumn(field="collocazione", title="collocazione",width=10),
-    TableColumn(field="recto", title="Digitalizzato",width=10,formatter = HTMLTemplateFormatter(template = '<a href="http://cdavr.dtesis.univr.it/<%= recto  %>" target="_blank"><%= value %></a>'))
+    TableColumn(field="fondo_serie", title="Fondo e serie",width=10,),
+    TableColumn(field="collocazione", title="Collocazione",width=10),
+    TableColumn(field="collocazione_antica", title="Collocazione antica",width=280),
+    TableColumn(field="notaio", title="Notaio o tipologia",width=280),
+    TableColumn(field="is_digitized", title="Digitalizzato",width=10,formatter = HTMLTemplateFormatter(template = '<a href="http://cdavr.dtesis.univr.it/<%= recto  %>" target="_blank"><%= value %></a>'))
 ]
 
 data_table = DataTable(source=source, columns=columns, width=900)
