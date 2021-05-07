@@ -1,9 +1,4 @@
-import sqlite3 as sql
 from os.path import dirname, join
-
-import numpy as np
-import pandas.io.sql as psql
-
 from bokeh.io import curdoc
 from bokeh.layouts import column, layout
 from bokeh.models import ColumnDataSource, Div, Select, Slider, TextInput,Button,CustomJS,TableColumn,DataTable,HTMLTemplateFormatter
@@ -58,7 +53,7 @@ max_year = Slider(title="Fine del periodo in esame", start=700, end=1300, value=
 #boxoffice = Slider(title="Dollars at Box Office (millions)", start=0, end=800, value=0, step=1)
 #genre = Select(title="Genre", value="All",
 #               options=open(join(dirname(__file__), 'genres.txt')).read().split())
-parola_notaio = TextInput(title="Campo notaio o tipologia contenente la seguente parola:")
+parola_notaio = TextInput(title="Notaio o tipologia di documento:")
 parola_collocantica = TextInput(title="Collocazione antica:")
 colloc = TextInput(title="Collocazione moderna:")
 #cast = TextInput(title="Cast names contains")
@@ -127,43 +122,39 @@ def update():
     d0900 = df[(df.data_i < "1001") & (df.data_i > "0900")]
     d1000 = df[(df.data_i < "1101") & (df.data_i > "1000")]
     d1100 = df[(df.data_i < "1201") & (df.data_i > "1100")]
-    d1200 = df[(df.data_i < "1301") & (df.data_i > "1200")]
-    d1300 = df[df.data_i > "1300"]
+    d1200 = df[df.data_i >"1200"]
     orig_d0700 = (d0700['copia'] == "Originale").sum()
     orig_d0800 = (d0800['copia'] == "Originale").sum()
     orig_d0900 = (d0900['copia'] == "Originale").sum()
     orig_d1000 = (d1000['copia'] == "Originale").sum()
     orig_d1100 = (d1100['copia'] == "Originale").sum()
     orig_d1200 = (d1200['copia'] == "Originale").sum()
-    orig_d1300 = (d1300['copia'] == "Originale").sum()
     cop_d0700 = d0700.shape[0] - orig_d0700
     cop_d0800 = d0800.shape[0] - orig_d0800
     cop_d0900 = d0900.shape[0] - orig_d0900
     cop_d1000 = d1000.shape[0] - orig_d1000
     cop_d1100 = d1100.shape[0] - orig_d1100
     cop_d1200 = d1200.shape[0] - orig_d1200
-    cop_d1300 = d1300.shape[0] - orig_d1300
+
 
     orig = [orig_d0700,
     orig_d0800,
     orig_d0900,
     orig_d1000,
     orig_d1100,
-    orig_d1200,
-    orig_d1300]
+    orig_d1200]
 
     cop = [cop_d0700,
     cop_d0800,
     cop_d0900,
     cop_d1000,
     cop_d1100,
-    cop_d1200,
-    cop_d1300]
+    cop_d1200]
 
     plotsource.data = dict(
         originali=orig,
         copie=cop,
-        secolo = ['700', '800', '900', '1000', '1100', '1200','1300']
+        secolo = ['700', '800', '900', '1000', '1100', '1200']
     )
     p.title.text = "Numero atti per secolo (Totale: %d) " % len(df)
     source.data = dict(
@@ -213,11 +204,11 @@ l = layout([
 
 # Table 
 columns = [
-    TableColumn(field="fondo_serie", title="Fondo e serie",width=10,),
-    TableColumn(field="collocazione", title="Collocazione",width=10),
-    TableColumn(field="collocazione_antica", title="Collocazione antica",width=280),
-    TableColumn(field="notaio", title="Notaio o tipologia",width=280),
-    TableColumn(field="is_digitized", title="Digitalizzato",width=10,formatter = HTMLTemplateFormatter(template = '<a href="http://cdavr.dtesis.univr.it/<%= recto  %>" target="_blank"><%= value %></a>'))
+    TableColumn(field="fondo_serie", title="Fondo e serie",width=100),
+    TableColumn(field="collocazione", title="Collocazione",width=40),
+    TableColumn(field="collocazione_antica", title="Collocazione antica",width=40),
+    TableColumn(field="notaio", title="Notaio o tipologia",width=60),
+    TableColumn(field="is_digitized", title="Digitalizzato",width=20,formatter = HTMLTemplateFormatter(template = '<a href="http://cdavr.dtesis.univr.it/<%= recto  %>" target="_blank"><%= value %></a>'))
 ]
 
 data_table = DataTable(source=source, columns=columns, width=900)
