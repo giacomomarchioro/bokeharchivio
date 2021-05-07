@@ -64,9 +64,9 @@ fondo = Select(title="Fondo archivistico:", options=lista_fondi, value='Archivio
 source = ColumnDataSource(data=dict(x=[], y=[],
                                     notaio=[], year=[], collocazione_antica=[],collocazione=[],fondo_serie=[],recto=[],is_digitized=[]))
 
-plotsource = ColumnDataSource(data=dict(originali=[],copie=[],secolo = ['700', '800', '900', '1000', '1100', '1200','1300']))
+plotsource = ColumnDataSource(data=dict(originali=[],copie=[],secolo = ['700', '800', '900', '1000', '1100', '1200']))
 
-secolo = ['700', '800', '900', '1000', '1100', '1200','1300']
+secolo = ['700', '800', '900', '1000', '1100', '1200']
 copiaoriginale = ["originali", "copie",]
 colors = ["#c9d9d3", "#718dbf"]
 
