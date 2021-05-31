@@ -47,8 +47,8 @@ desc = Div(text=open(join(dirname(__file__), "description.html")).read(), sizing
 
 # Create Input controls
 #reviews = Slider(title="Minimum number of reviews", value=80, start=10, end=300, step=10)
-min_year = Slider(title="Inizio del periodo in esame", start=700, end=1300, value=700, step=1)
-max_year = Slider(title="Fine del periodo in esame", start=700, end=1300, value=1300, step=1)
+min_year = Slider(title="Inizio del periodo in esame", start=700, end=1200, value=700, step=1)
+max_year = Slider(title="Fine del periodo in esame", start=700, end=1200, value=1200, step=1)
 #oscars = Slider(title="Minimum number of Oscar wins", start=0, end=4, value=0, step=1)
 #boxoffice = Slider(title="Dollars at Box Office (millions)", start=0, end=800, value=0, step=1)
 #genre = Select(title="Genre", value="All",
@@ -64,9 +64,9 @@ fondo = Select(title="Fondo archivistico:", options=lista_fondi, value='Archivio
 source = ColumnDataSource(data=dict(x=[], y=[],
                                     notaio=[], year=[], collocazione_antica=[],collocazione=[],fondo_serie=[],recto=[],is_digitized=[]))
 
-plotsource = ColumnDataSource(data=dict(originali=[],copie=[],secolo = ['700', '800', '900', '1000', '1100', '1200']))
+plotsource = ColumnDataSource(data=dict(originali=[],copie=[],secolo = ['700', '800', '900', '1000', '1100']))
 
-secolo = ['700', '800', '900', '1000', '1100', '1200']
+secolo = ['700', '800', '900', '1000', '1100']
 copiaoriginale = ["originali", "copie",]
 colors = ["#c9d9d3", "#718dbf"]
 
@@ -122,19 +122,19 @@ def update():
     d0900 = df[(df.data_i < "1001") & (df.data_i > "0900")]
     d1000 = df[(df.data_i < "1101") & (df.data_i > "1000")]
     d1100 = df[(df.data_i < "1201") & (df.data_i > "1100")]
-    d1200 = df[df.data_i >"1200"]
+    #d1200 = df[df.data_i >"1200"]
     orig_d0700 = (d0700['copia'] == "Originale").sum()
     orig_d0800 = (d0800['copia'] == "Originale").sum()
     orig_d0900 = (d0900['copia'] == "Originale").sum()
     orig_d1000 = (d1000['copia'] == "Originale").sum()
     orig_d1100 = (d1100['copia'] == "Originale").sum()
-    orig_d1200 = (d1200['copia'] == "Originale").sum()
+    #orig_d1200 = (d1200['copia'] == "Originale").sum()
     cop_d0700 = d0700.shape[0] - orig_d0700
     cop_d0800 = d0800.shape[0] - orig_d0800
     cop_d0900 = d0900.shape[0] - orig_d0900
     cop_d1000 = d1000.shape[0] - orig_d1000
     cop_d1100 = d1100.shape[0] - orig_d1100
-    cop_d1200 = d1200.shape[0] - orig_d1200
+    #cop_d1200 = d1200.shape[0] - orig_d1200
 
 
     orig = [orig_d0700,
@@ -142,19 +142,21 @@ def update():
     orig_d0900,
     orig_d1000,
     orig_d1100,
-    orig_d1200]
+    #orig_d1200,
+    ]
 
     cop = [cop_d0700,
     cop_d0800,
     cop_d0900,
     cop_d1000,
     cop_d1100,
-    cop_d1200]
+    #cop_d1200,
+    ]
 
     plotsource.data = dict(
         originali=orig,
         copie=cop,
-        secolo = ['700', '800', '900', '1000', '1100', '1200']
+        secolo = ['700', '800', '900', '1000', '1100']
     )
     p.title.text = "Numero atti per secolo (Totale: %d) " % len(df)
     source.data = dict(
