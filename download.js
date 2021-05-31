@@ -1,13 +1,13 @@
 function table_to_csv(source) {
     const nrows = source.get_length()
-    const selectedcolumns = ['identificativo','collocazione','collocazione_antica']
+    const selectedcolumns = ['fondo_serie','collocazione','collocazione_antica','notaio']
     const lines = [selectedcolumns.join(',')]
     for (let i = 0; i < nrows; i++) {
         let row = [];
         selectedcolumns.forEach(function (item, index) {
             row.push(source.data[item][i].toString());
           });
-        lines.push(row.join(','))
+        lines.push(row.join('\t'))
     }
     return lines.join('\n').concat('\n')
 }
