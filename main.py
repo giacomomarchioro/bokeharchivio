@@ -62,7 +62,7 @@ colloc = TextInput(title="Collocazione moderna:")
 fondo = Select(title="Fondo archivistico:", options=lista_fondi, value='Archivio Capitolare di Verona')
 # Create Column Data Source that will be used by the plot
 source = ColumnDataSource(data=dict(x=[], y=[],
-                                    notaio=[], year=[], collocazione_antica=[],collocazione=[],fondo_serie=[],recto=[],is_digitized=[]))
+                                    notaio=[], year=[], collocazione_antica=[],collocazione=[],fondo_serie=[],recto=[],is_digitized=[],data_i=[]))
 
 plotsource = ColumnDataSource(data=dict(originali=[],copie=[],secolo = ['700', '800', '900', '1000', '1100']))
 
@@ -167,6 +167,7 @@ def update():
         notaio=df["notaio"],
         #numero_del_codice = df["numero_del_codice"],
         year=df["data_f"],
+        data_i=df["data_i"],
         #marker_dim = df["marker_dim"],
         #revenue=df["revenue"],
         #alpha=df["alpha"],
@@ -207,10 +208,11 @@ l = layout([
 # Table 
 columns = [
     TableColumn(field="fondo_serie", title="Fondo e serie",width=100),
+    TableColumn(field="data_i", title="Data riportata",width=40),
     TableColumn(field="collocazione", title="Collocazione",width=40),
     TableColumn(field="collocazione_antica", title="Collocazione antica",width=40),
     TableColumn(field="notaio", title="Notaio o tipologia",width=60),
-    TableColumn(field="is_digitized", title="Digitalizzato",width=20,formatter = HTMLTemplateFormatter(template = '<a href="http://cdavr.dtesis.univr.it/<%= recto  %>" target="_blank"><%= value %></a>'))
+    TableColumn(field="is_digitized", title="Digitalizzato",width=10,formatter = HTMLTemplateFormatter(template = '<a href="http://cdavr.dtesis.univr.it/<%= recto  %>" target="_blank"><%= value %></a>'))
 ]
 
 data_table = DataTable(source=source, columns=columns, width=900)
