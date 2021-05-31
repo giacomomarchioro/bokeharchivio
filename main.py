@@ -3,6 +3,7 @@ from bokeh.io import curdoc
 from bokeh.layouts import column, layout
 from bokeh.models import ColumnDataSource, Div, Select, Slider, TextInput,Button,CustomJS,TableColumn,DataTable,HTMLTemplateFormatter
 from bokeh.plotting import figure
+from bokeh.models.widgets import AutocompleteInput
 #from bokeh.sampledata.catalog_data import movie_path
 
 # Added
@@ -53,7 +54,7 @@ max_year = Slider(title="Fine del periodo in esame", start=700, end=1200, value=
 #boxoffice = Slider(title="Dollars at Box Office (millions)", start=0, end=800, value=0, step=1)
 #genre = Select(title="Genre", value="All",
 #               options=open(join(dirname(__file__), 'genres.txt')).read().split())
-parola_notaio = TextInput(title="Notaio o tipologia di documento:")
+parola_notaio = AutocompleteInput(completions=catalog.notaio.dropna().unique().tolist(), title="Notaio o tipologia di documento:",case_sensitive=False,restrict=False)
 parola_collocantica = TextInput(title="Collocazione antica:")
 colloc = TextInput(title="Collocazione moderna:")
 #cast = TextInput(title="Cast names contains")
@@ -105,7 +106,7 @@ def select_catalog():
     if fondo_val != "Tutti":
         selected = selected[selected.fondo == fondo_val]
     if (parola_notaio_val != ""):
-        selected = selected[selected.notaio.str.contains(parola_notaio_val)==True]
+        selected = selected[selected.notaio.str.contains(parola_notaio_val,case=False)==True]
     if (parola_collocantica_val != ""):
         selected = selected[selected.collocazione_antica == parola_collocantica_val]
     if (colloc_val != ""):
@@ -182,6 +183,10 @@ def update():
 
 def callback():
     source.selected.indices = []
+    parola_notaio.value = ""
+    select_catalog()
+    print(parola_notaio.value)
+    print("Reset")
 
 buttondes= Button(label="Resetta selezione", button_type="success")
 buttondes.on_click(callback)
